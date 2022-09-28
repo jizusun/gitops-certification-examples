@@ -1,0 +1,75 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-rollouts-controller
+spec:
+  destination:
+    name: ""
+    namespace: argo-rollouts
+    server: "https://kubernetes.default.svc"
+  source:
+    path: ./argo-rollouts-controller
+    repoURL: "https://github.com/codefresh-contrib/gitops-certification-examples"
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ambassador
+spec:
+  destination:
+    name: ""
+    namespace: ambassador
+    server: "https://kubernetes.default.svc"
+  source:
+    path: ./ambassador-chart
+    repoURL: "https://github.com/codefresh-contrib/gitops-certification-examples"
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo
+spec:
+  destination:
+    name: ""
+    namespace: default
+    server: "https://kubernetes.default.svc"
+  source:
+    path: ./canary-app-timed
+    repoURL: "https://github.com/jizusun/gitops-certification-examples"
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated: null
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo
+spec:
+  destination:
+    name: ""
+    namespace: default
+    server: "https://kubernetes.default.svc"
+  source:
+    path: ./canary-app-timed
+    repoURL: "https://github.com/jizusun/gitops-certification-examples"
+    targetRevision: HEAD
+  project: default
+  syncPolicy:
+    automated: null
